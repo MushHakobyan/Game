@@ -18,12 +18,6 @@ class Game extends React.Component {
       winGame: false,
       loseGame: false
     };
-    // this.restartGame = this.restartGame.bind(this);
-    // this.continueGame = this.continueGame.bind(this);
-    // this.slideTop = this.slideTop.bind(this);
-    // this.slideBottom = this.slideBottom.bind(this);
-    // this.slideLeft = this.slideLeft.bind(this);
-    // this.slideRight = this.slideRight.bind(this);
   }
 
   copySquares() {
