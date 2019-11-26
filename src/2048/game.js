@@ -1,4 +1,9 @@
 import React from "react";
+import WinGame from "./winGame";
+import LoseGame from "./loseGame";
+import Board from "./board";
+import Buttons from "./buttons";
+import Menu from "./menu";
 
 class Game extends React.Component {
   constructor() {
@@ -18,6 +23,12 @@ class Game extends React.Component {
       winGame: false,
       loseGame: false
     };
+    this.restartGame = this.restartGame.bind(this);
+    this.continueGame = this.continueGame.bind(this);
+    this.slideBottom = this.slideBottom.bind(this);
+    this.slideTop = this.slideTop.bind(this);
+    this.slideRight = this.slideRight.bind(this);
+    this.slideLeft = this.slideLeft.bind(this);
   }
 
   copySquares() {
@@ -131,9 +142,7 @@ class Game extends React.Component {
     this.slideRow();
     this.reverseRow();
     this.rotateSquares();
-    if (this.compareSquares()) {
-      this.addNumber();
-    }
+    this.addNumber();
   }
 
   slideBottom() {
@@ -220,76 +229,20 @@ class Game extends React.Component {
     return (
       <div className="game">
         {winGame && (
-          <div className="winGame">
-            <p className="win">You Win!</p>
-            <div className="newGame" onClick={() => this.restartGame()}>
-              New Game
-            </div>
-            <div className="continue" onClick={() => this.continueGame()}>
-              Continue
-            </div>
-          </div>
+          <WinGame
+            restartGame={this.restartGame}
+            continueGame={this.continueGame}
+          />
         )}
-        {loseGame && (
-          <div className="loseGame">
-            <p className="lose">{lose}</p>
-            <div className="newGame" onClick={() => this.restartGame()}>
-              New Game
-            </div>
-          </div>
-        )}
-        <div className="menu">
-          <p className="score">
-            Score: {score} Record: {record}
-          </p>
-          <button onClick={() => this.restartGame()}>Restart</button>
-        </div>
-        <div className="board">
-          <div className="div">
-            {squares[0].map((item, i) => {
-              return (
-                <div key={i} className="square">
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-          <div className="div">
-            {squares[1].map((item, i) => {
-              return (
-                <div key={i} className="square">
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-          <div className="div">
-            {squares[2].map((item, i) => {
-              return (
-                <div key={i} className="square">
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-          <div className="div">
-            {squares[3].map((item, i) => {
-              return (
-                <div key={i} className="square">
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        <div className="buttons">
-          <button onClick={() => this.slideLeft()}>&larr;</button>
-          <div className="button">
-            <button onClick={() => this.slideTop()}>&uarr;</button>
-            <button onClick={() => this.slideBottom()}>&darr;</button>
-          </div>
-          <button onClick={() => this.slideRight()}>&rarr;</button>
-        </div>
+        {loseGame && <LoseGame lose={lose} restartGame={this.restartGame} />}
+        <Menu score={score} record={record} restartGame={this.restartGame} />
+        <Board squares={squares} />
+        <Buttons
+          slideTop={this.slideTop}
+          slideRight={this.slideRight}
+          slideLeft={this.slideLeft}
+          slideBottom={this.slideBottom}
+        />
       </div>
     );
   }
